@@ -1,0 +1,34 @@
+#+TITLE: Studying jitter in the ESP32 ADC
+
+* Setup
+  Assemble the ESP32 such that one of the ADC pins is supplied with a constant voltage.
+  In this particular case, I split the 3.3 V supplied from the ESP in half and measured that on Pin 32.
+  My voltmeter measures constant 1.66 V on this pin.
+
+  Load the MicroPython firmware on the ESP32 as described in the [[https://docs.micropython.org/en/latest/esp32/tutorial/intro.html][MicroPython documentation]].
+  Then, copy ~main.py~ to the ESP32 using ~ampy --port /dev/ttyUSB0 put main.py~, reset the ESP and wait.
+
+* Measurement
+  Upon booting, the ADC is read out for one second as fast as possible, measured values are stored in a list.
+  After that, the list is written to a file ~results_fast.csv~ with one value per line and no additional information.
+
+* Evaluation
+
+  I end up with 10.819 values read out from the ADC, so obtaining one ADC reading takes roughly $92\,\mu\mathrm{s}$.
+  From a quick glance, they are mostly centered around some central value, with a few outliers.
+
+  #+CAPTION: Scatterplot of the first 1000 ADC readouts
+  [[./results_fast.png]]
+
+  When looking at the histogram, it is obvious that there is a sharp peak around the nominal value with some very broad base.
+  Likely, there is a second, subdominant source of noise that causes this broadening at the base.
+
+  #+CAPTION: Histogram of the ADC readout values at constant voltage.
+  [[./histogram_no_functions.png]]
+
+  The central peak is described quite well by a Gaussian with a mean $\mu = 1853$ and standard deviation $\sigma = 9.35$.
+  Alternatively, the peak and the broad base can be enveloped by a Cauchy distribution with location parameter $x_0 = 1854$ and FWHM $2 \gamma = 16$.
+  Combinations of these two don't really bring satisfying results.
+
+  #+CAPTION: Different functional forms to describe the ADC readout histogram
+  [[./histogram.png]]
