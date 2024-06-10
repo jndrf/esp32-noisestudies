@@ -36,6 +36,7 @@ fig.savefig('results_fast.png', dpi=300)
 # create histogram of ADC readouts
 fig, ax = plt.subplots(1, 1)
 bin_values, bin_edges, patches = ax.hist(df['ADC_READING'], bins=100, log=True)
+fig.savefig('histogram_no_functions.png')
 bin_centers = [(bin_edges[i]+bin_edges[i+1])/2 for i in range(len(bin_edges)-1)]
 x_for_function = np.linspace(bin_edges[0], bin_edges[-1], 1000)
 
