@@ -47,10 +47,16 @@ popt, pcov, info, mesg, ier = spopt.curve_fit(
     p0=(bin_values[50], df['ADC_READING'].mean(), df['ADC_READING'].std()),
     full_output=True
 )
-pprint(popt)
-
+print(f'''
+### Gaussian Fit Results ###
+mean: \t {popt[1]}
+std: \t {popt[2]}
+norm: \t {popt[0]}
+{mesg}
+''')
 ax.plot(x_for_function, gaussian(x_for_function, *popt),
         marker='', linestyle='-', label='gaussian')
+
 
 popt, pcov, info, mesg, ier = spopt.curve_fit(
     double_gaussian, xdata=bin_centers[10:90], ydata=bin_values[10:90],
@@ -60,7 +66,13 @@ popt, pcov, info, mesg, ier = spopt.curve_fit(
     method='dogbox',
     full_output=True
 )
-print(popt)
+print(f'''
+### Double Gaussian Fit Results ###
+mean: \t {popt[1]} \t {popt[4]}
+std: \t {popt[2]} \t {popt[5]}
+norm: \t {popt[0]} \t {popt[3]}
+{mesg}
+''')
 ax.plot(x_for_function, double_gaussian(x_for_function, *popt),
         marker='', linestyle='-', label='double gaussian')
 
@@ -71,7 +83,13 @@ popt, pcov, info, mesg, ier = spopt.curve_fit(
     bounds=(-np.inf, np.inf),
     full_output=True
 )
-print(popt)
+print(f'''
+### Cauchy Fit Results ###
+x_0: \t {popt[1]}
+HWHM: \t {popt[2]}
+norm: \t {popt[0]}
+{mesg}
+''')      
 ax.plot(x_for_function, cauchy(x_for_function, *popt),
         marker='', linestyle='-', label='cauchy')
 
@@ -83,7 +101,16 @@ popt, pcov, info, mesg, ier = spopt.curve_fit(
     method='dogbox',
     full_output=True
 )
-print(popt)
+print(f'''
+### Gaussian plus Cauchy Fit Results ###
+mean: \t {popt[1]}
+std: \t {popt[2]}
+norm_g:\t {popt[0]}
+x_0: \t {popt[4]}
+HWHM: \t {popt[5]}
+norm_c:\t {popt[3]}
+{mesg}
+''')
 ax.plot(x_for_function, gaussian_plus_cauchy(x_for_function, *popt),
         marker='', linestyle='-', label='gaussian plus cauchy')
 
