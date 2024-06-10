@@ -1,4 +1,4 @@
-#+TITLE: Studying jitter in the ESP32 ADC
+#+TITLE: Studying Noise in the ESP32 ADC
 
 * Setup
   Assemble the ESP32 such that one of the ADC pins is supplied with a constant voltage.
