@@ -30,11 +30,13 @@ df = pd.read_csv('results_fast.csv', names=['ADC_READING'])
 
 fig, ax = plt.subplots(1, 1)
 ax.plot(df['ADC_READING'][:1000], marker='.', linestyle='none')
+ax.set_ylabel('ADC readout', loc='top')
 fig.savefig('results_fast.png', dpi=300)
 
 
 # create histogram of ADC readouts
 fig, ax = plt.subplots(1, 1)
+ax.set_xlabel('ADC readout', loc='right')
 bin_values, bin_edges, patches = ax.hist(df['ADC_READING'], bins=100, log=True)
 fig.savefig('histogram_no_functions.png')
 bin_centers = [(bin_edges[i]+bin_edges[i+1])/2 for i in range(len(bin_edges)-1)]
