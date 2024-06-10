@@ -32,3 +32,11 @@
 
   #+CAPTION: Different functional forms to describe the ADC readout histogram
   [[./histogram.png]]
+
+* Noise Removal by Averaging
+
+  The script ~rolling_window.py~ averages the ADC readouts over a window of varying width and plots the resulting averages in a histogram.
+  A width of 5 already removes the worst outliers, and depending on the desired accuracy and speed requirements, averaging over 20 or 50 measurements (which will take approx 2 ms or 5 ms) is probably a good compromise.
+
+  #+CAPTION: Distribution of the mean values of rolling windows of different width.
+  [[./rolling_window.png]]
